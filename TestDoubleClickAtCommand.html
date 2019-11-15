@@ -35,7 +35,7 @@
     <p id="label"></p>
     <script>
         Array.prototype.forEach.call(document.getElementsByClassName("target"), target => target.ondblclick = function (e) {
-            document.getElementById("label").innerHTML = "You clicked " + e.target.id + " @x:" + e.offsetX + ",y:" + e.offsetY;
+            document.getElementById("label").innerHTML = "You double clicked " + e.target.id + " @x:" + e.offsetX + ",y:" + e.offsetY;
         });
     </script>
 </body>
