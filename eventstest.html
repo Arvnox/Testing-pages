@@ -1,0 +1,141 @@
+<html><head></head><body><div id="eventsdiv" style="
+    width: 100%;
+    height: 80%;
+    background: white;
+    border: solid 1px black;
+    margin: 0;
+    padding: 0;
+">
+<input id="inputdefault" style="
+    width: 100%;
+    font-weight: 900;
+    font-size: larger;
+    margin-top: 1%;
+              ">
+<input id="inputtext" type="text" style="
+    width: 100%;
+    font-weight: 900;
+    font-size: larger;
+    margin-top: 1%;
+              ">
+<input id="inputtel" type="tel" style="
+    width: 100%;
+    font-weight: 900;
+    font-size: larger;
+    margin-top: 1%;
+              ">
+<input  id="inputemail" type="email" style="
+    width: 100%;
+    font-weight: 900;
+    font-size: larger;
+    margin-top: 1%;
+              ">
+<input  id="inputnumber" type="number" style="
+    width: 100%;
+    font-weight: 900;
+    font-size: larger;
+    margin-top: 1%;
+              ">
+<input  id="inputbutton" type="button" style="
+    width: 100%;
+    font-weight: 900;
+    font-size: larger;
+    margin-top: 1%;
+              ">
+<input  id="inputcheckbox" type="checkbox">
+<input  id="inputcolor" type="color">
+<input  id="inputdate" type="date">
+<input  id="inputdatetime-local" type="datetime-local">
+<input  id="inputfile" type="file">
+<input  id="inputimage" type="image">
+<input  id="inputmonth" type="month">
+<input  id="inputpasword" type="password" style="
+    width: 100%;
+    font-weight: 900;
+    font-size: larger;
+    margin-top: 1%;
+              ">
+<input  id="inputradio" type="radio">
+<input  id="inputrange" type="range" style="
+    width: 100%;
+    font-weight: 900;
+    font-size: larger;
+    margin-top: 1%;
+              ">
+<input  id="inputsearch" type="search">
+<input  id="inputtime" type="time">
+<input  id="inputurl" type="url" style="
+    width: 100%;
+    font-weight: 900;
+    font-size: larger;
+    margin-top: 1%;
+              ">
+<input  id="inputweek" type="week">
+<input  id="inputdatetime" type="datetime">
+			  
+<button id="button">Button!</button>
+
+<div id="divcontenteditable" contenteditable="true"></div>
+
+<video id="video" controls=""><source src="download.blender.org/peach/bigbuckbunny_movies/BigBuckBunny_320x180.mp4" type="video/mp4"></video>
+<audio controls="" src="files.freemusicarchive.org/storage-freemusicarchive-org/music/no_curator/Scott_Holmes/Inspiring__Upbeat_Music/Scott_Holmes_-_06_-_Clear_Progress.mp3" id="audio">
+            Your browser does not support the
+            <code>audio</code> element.
+    </audio>
+</div>
+<div id="resultsdiv" style="
+    border: solid 1px gray;
+    height: 15%;
+    width: 48%;
+    margin: 1% 0 0 0;
+    display: inline-grid;
+">
+    <h1>
+    Title: <label id="resultlabel">
+    </label></h1>
+    <textarea disabled="true" style="
+    width: 100%;
+    height: 50%;
+" id="resulttextarea"></textarea>
+</div>
+<div id="inputdiv" style="
+    border: solid 1px gray;
+    height: 15%;
+    width: 48%;
+    margin: 1% 0 0 0;
+    display: inline-grid;
+">
+    <h1>
+    Title: <input id="resultinput" style="
+    width: 100%;
+    font-weight: 900;
+    font-size: larger;
+    margin-top: 1%;
+"></h1>
+
+</div>
+<script>
+	var eventList = ["abort","afterprint","animationcancel","animationend","animationiteration","animationstart","appinstalled","audioend ","audioprocess","audiostart ","beforeprint","beforeunload","beginEvent","blocked","blur","boundary ","canplay","canplaythrough","change","chargingchange","chargingtimechange","click","close","complete","compositionend","compositionstart","compositionupdate","contextmenu","copy","cut","dblclick","devicechange","devicemotion","deviceorientation","dischargingtimechange","DOMActivate ","DOMAttributeNameChanged ","DOMAttrModified ","DOMCharacterDataModified ","DOMContentLoaded","DOMElementNameChanged ","DOMFocusIn ","DOMFocusOut ","DOMNodeInserted ","DOMNodeInsertedIntoDocument ","DOMNodeRemoved ","DOMNodeRemovedFromDocument ","DOMSubtreeModified ","drag","dragend","dragenter","dragleave","dragover","dragstart","drop","durationchange","emptied","end ","ended","endEvent","error","error ","focus","focusin","focusout","fullscreenchange","fullscreenerror","gamepadconnected","gamepaddisconnected","gotpointercapture","hashchange","input","invalid","keydown","keypress ","keyup","languagechange ","levelchange","load","loadeddata","loadedmetadata","loadend","loadstart","lostpointercapture","mark ","message","message ","messageerror","mousedown","mouseenter","mouseleave","mousemove","mouseout","mouseover","mouseup","mousewheel ","msContentZoom","MSManipulationStateChanged","MSPointerHover ","nomatch ","notificationclick","offline","online","open","orientationchange","pagehide","pageshow","paste","pause","pause ","play","playing","pointercancel","pointerdown","pointerenter","pointerleave","pointerlockchange","pointerlockerror","pointermove","pointerout","pointerover","pointerup","popstate","progress","push","pushsubscriptionchange","ratechange","readystatechange","repeatEvent","reset","resize","resourcetimingbufferfull","result ","resume ","scroll","seeked","seeking","select","selectionchange ","selectstart ","show","slotchange","soundend ","soundstart ","speechend ","speechstart ","stalled","start","start ","storage","submit","success","suspend","SVGAbort","SVGError","SVGLoad","SVGResize","SVGScroll","SVGUnload","SVGZoom","timeout","timeupdate","touchcancel","touchend","touchmove","touchstart","transitionend","unload","upgradeneeded","userproximity","versionchange","visibilitychange","voiceschanged ","volumechange","waiting","wheel"]
+	var children = document.getElementById("eventsdiv").children;
+	var elements = [];
+	for (var i = 0; i < children.length; i++) {
+		elements.push(children.item(i));
+	}
+	var firedMap = {};
+	var lastUpdate = 0;
+	eventList.forEach(evt =>
+		elements.forEach(el => el.addEventListener(evt, (e, it) => {
+			//console.log(evt, e, e.srcElement.id, it);
+			if(!firedMap[e.srcElement.id]) firedMap[e.srcElement.id] = {};
+			if(!firedMap[e.srcElement.id][evt]) firedMap[e.srcElement.id][evt] = 0;
+			firedMap[e.srcElement.id][evt]++;
+			
+			if(new Date().getTime() - lastUpdate > 1000) {
+				lastUpdate = new Date().getTime();
+				console.log(firedMap);
+				console.log(JSON.stringify(firedMap));
+			}
+		}))
+	);
+</script>
+</body></html>
