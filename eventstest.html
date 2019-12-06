@@ -123,8 +123,8 @@
 	}
 	var firedMap = {};
 	var lastUpdate = 0;
-	eventList.forEach(evt =>
-		elements.forEach(el => el.addEventListener(evt, (e, it) => {
+	eventList.forEach(function(evt) {
+		elements.forEach(function(el) {el.addEventListener(evt, function(e, it) {
 			//console.log(evt, e, e.srcElement.id, it);
 			if(!firedMap[e.srcElement.id]) firedMap[e.srcElement.id] = {};
 			if(!firedMap[e.srcElement.id][evt]) firedMap[e.srcElement.id][evt] = 0;
@@ -135,7 +135,7 @@
 				console.log(firedMap);
 				console.log(JSON.stringify(firedMap));
 			}
-		}))
-	);
+		})})
+	});
 </script>
 </body></html>
