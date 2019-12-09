@@ -146,6 +146,31 @@
 
 </div>
 <script>
+	function flattenEvent( obj ) {
+	    var props = [];
+	    var originalObj = obj;
+
+	    do {
+		Object.getOwnPropertyNames( obj ).filter(function(prop) {
+		    // Ad-hoc list of common event properties which every event shares
+		    return ["AT_TARGET", "BUBBLING_PHASE", "CAPTURING_PHASE", "NONE", "__defineGetter__", "__defineSetter__", "__lookupGetter__", "__lookupSetter__", "__proto__", "bubbles", "cancelBubble", "cancelable", "composed", "composedPath", "constructor", "currentTarget", "defaultPrevented", "eventPhase", "hasOwnProperty", "initEvent", "isPrototypeOf", "isTrusted", "path", "preventDefault", "propertyIsEnumerable", "returnValue", "srcElement", "stopImmediatePropagation", "stopPropagation", "target", "timeStamp", "toLocaleString", "toString", "type", "valueOf", "view"].indexOf(prop) < 0;
+		}).forEach(function ( prop ) {
+		    if ( props.indexOf( prop ) === -1 ) {
+			props.push( prop );
+		    }
+		});
+	    } while ( obj = Object.getPrototypeOf( obj ) );
+
+	    var flattenedObj = {};
+	    for(var i = 0; i < props.length; i++) {
+		if((typeof originalObj[props[i]]) !== "function") {
+		    flattenedObj[props[i]] = originalObj[props[i]];
+		}
+	    }
+
+	    return flattenedObj;
+	}
+	
 	var eventList = ["abort","afterprint","animationcancel","animationend","animationiteration","animationstart","appinstalled","audioend ","audioprocess","audiostart ","beforeprint","beforeunload","beginEvent","blocked","blur","boundary ","canplay","canplaythrough","change","chargingchange","chargingtimechange","click","close","complete","compositionend","compositionstart","compositionupdate","contextmenu","copy","cut","dblclick","devicechange","devicemotion","deviceorientation","dischargingtimechange","DOMActivate ","DOMAttributeNameChanged ","DOMAttrModified ","DOMCharacterDataModified ","DOMContentLoaded","DOMElementNameChanged ","DOMFocusIn ","DOMFocusOut ","DOMNodeInserted ","DOMNodeInsertedIntoDocument ","DOMNodeRemoved ","DOMNodeRemovedFromDocument ","DOMSubtreeModified ","drag","dragend","dragenter","dragleave","dragover","dragstart","drop","durationchange","emptied","end ","ended","endEvent","error","error ","focus","focusin","focusout","fullscreenchange","fullscreenerror","gamepadconnected","gamepaddisconnected","gotpointercapture","hashchange","input","invalid","keydown","keypress ","keyup","languagechange ","levelchange","load","loadeddata","loadedmetadata","loadend","loadstart","lostpointercapture","mark ","message","message ","messageerror","mousedown","mouseenter","mouseleave","mousemove","mouseout","mouseover","mouseup","mousewheel ","msContentZoom","MSManipulationStateChanged","MSPointerHover ","nomatch ","notificationclick","offline","online","open","orientationchange","pagehide","pageshow","paste","pause","pause ","play","playing","pointercancel","pointerdown","pointerenter","pointerleave","pointerlockchange","pointerlockerror","pointermove","pointerout","pointerover","pointerup","popstate","progress","push","pushsubscriptionchange","ratechange","readystatechange","repeatEvent","reset","resize","resourcetimingbufferfull","result ","resume ","scroll","seeked","seeking","select","selectionchange ","selectstart ","show","slotchange","soundend ","soundstart ","speechend ","speechstart ","stalled","start","start ","storage","submit","success","suspend","SVGAbort","SVGError","SVGLoad","SVGResize","SVGScroll","SVGUnload","SVGZoom","timeout","timeupdate","touchcancel","touchend","touchmove","touchstart","transitionend","unload","upgradeneeded","userproximity","versionchange","visibilitychange","voiceschanged ","volumechange","waiting","wheel"]
 	var children = document.getElementById("eventsdiv").children;
 	var elements = [];
@@ -160,7 +185,7 @@
 			if(!firedMap[e.srcElement.id]) firedMap[e.srcElement.id] = {};
 			if(!firedMap[e.srcElement.id][evt]) firedMap[e.srcElement.id][evt] = {"count":0, "sample":{}};
 			firedMap[e.srcElement.id][evt].count++;
-			firedMap[e.srcElement.id][evt].sample = e;
+			firedMap[e.srcElement.id][evt].sample = e ? flattenEvent(e) : e;
 			
 			// Avoid hanging up the browser
 			if(new Date().getTime() - lastUpdate > 1000) {
