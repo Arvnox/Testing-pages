@@ -185,12 +185,13 @@
 			if(!firedMap[e.srcElement.id]) firedMap[e.srcElement.id] = {};
 			if(!firedMap[e.srcElement.id][evt]) firedMap[e.srcElement.id][evt] = {"count":0, "sample":{}};
 			firedMap[e.srcElement.id][evt].count++;
-			firedMap[e.srcElement.id][evt].sample = e ? flattenEvent(e) : e;
+			firedMap[e.srcElement.id][evt].sample = e;
 			
 			// Avoid hanging up the browser
 			if(new Date().getTime() - lastUpdate > 1000) {
 				lastUpdate = new Date().getTime();
 				console.log(firedMap);
+			        firedMap[e.srcElement.id][evt].sample = e ? flattenEvent(e) : e;
 				console.log(JSON.stringify(firedMap));
 				document.getElementById("resulttextarea").innerText = JSON.stringify(firedMap);
 			}
