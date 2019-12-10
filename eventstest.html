@@ -185,6 +185,7 @@
 			if(!firedMap[e.srcElement.id]) firedMap[e.srcElement.id] = {};
 			if(!firedMap[e.srcElement.id][evt]) firedMap[e.srcElement.id][evt] = {"count":0, "sample":{}};
 			firedMap[e.srcElement.id][evt].count++;
+			var previous = firedMap[e.srcElement.id][evt].sample;
 			firedMap[e.srcElement.id][evt].sample = e;
 			
 			// Avoid hanging up the browser
@@ -195,6 +196,17 @@
 			}
 			
 			firedMap[e.srcElement.id][evt].sample = ((typeof e) !== 'undefined' && e != null) ? flattenEvent(e) : e;
+			
+			if(!!previous) {
+				var next = firedMap[e.srcElement.id][evt].sample;
+				Object.keys(previous).filter(function(key){
+					return !!previous[key];
+				}).filter(function(key){
+					return !next[key];
+				}).forEach(function(key) {
+					firedMap[e.srcElement.id][evt].sample[key] = previous[key];
+				});
+			}
 			
 			if(printResults) {
 			        console.log(JSON.stringify(firedMap));
