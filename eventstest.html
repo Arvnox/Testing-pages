@@ -179,10 +179,11 @@
 	}
 	var firedMap = {};
 	var lastUpdate = 0;
+	var slidingWindows = {};
 	eventList.forEach(function(evt) {
 		elements.forEach(function(el) {el.addEventListener(evt, function(e, it) {
 			//console.log(evt, e, e.srcElement.id, it);
-			if(!firedMap[e.srcElement.id]) firedMap[e.srcElement.id] = {};
+			if(!firedMap[e.srcElement.id]) firedMap[e.srcElement.id] = {"unorderedStream": []};
 			if(!firedMap[e.srcElement.id][evt]) firedMap[e.srcElement.id][evt] = {"count":0, "sample":{}};
 			firedMap[e.srcElement.id][evt].count++;
 			var previous = firedMap[e.srcElement.id][evt].sample;
@@ -197,6 +198,7 @@
 			
 			firedMap[e.srcElement.id][evt].sample = ((typeof e) !== 'undefined' && e != null) ? flattenEvent(e) : e;
 			
+			// Merge all events to avoid loosing properties
 			if(!!previous) {
 				var next = firedMap[e.srcElement.id][evt].sample;
 				Object.keys(previous).filter(function(key){
@@ -211,6 +213,26 @@
 			if(printResults) {
 			        console.log(JSON.stringify(firedMap));
 				document.getElementById("resulttextarea").innerText = JSON.stringify(firedMap);
+			}
+			
+			// Sliding window, the idea is to save the stream of events if the timestamp of this events appears before than the last recorded one
+			// i.e we need to know which events could be disordered
+			if (typeof slidingWindows[e.srcElement.id] !== 'undefined') {
+				slidingWindows[e.srcElement.id] = [];
+			}
+			
+			var currentWindow = slidingWindows[e.srcElement.id]
+			currentWindow.push({"name": evt, "timeStamp": e.timeStamp});
+			
+			// This is bad news!
+			if(currentWindow.length > 1 && 
+			   currentWindow[currentWindow.length - 2] &&
+			   currentWindow[currentWindow.length - 2].timeStamp > currentWindow[currentWindow.length - 1].timeStamp) {
+				firedMap[e.srcElement.id].unorderedStream.push(JSON.parse(JSON.stringify(currentWindow)));
+			}
+			
+			if(currentWindow.length > 10) { // Avoid space problems
+				slidingWindows[e.srcElement.id].pop();
 			}
 		})})
 	});
