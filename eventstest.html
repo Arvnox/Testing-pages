@@ -191,7 +191,7 @@
 			if(new Date().getTime() - lastUpdate > 1000) {
 				lastUpdate = new Date().getTime();
 				console.log(firedMap);
-			        firedMap[e.srcElement.id][evt].sample = e ? flattenEvent(e) : e;
+			        firedMap[e.srcElement.id][evt].sample = ((typeof e) !== 'undefined' && e != null) ? flattenEvent(e) : e;
 				console.log(JSON.stringify(firedMap));
 				document.getElementById("resulttextarea").innerText = JSON.stringify(firedMap);
 			}
