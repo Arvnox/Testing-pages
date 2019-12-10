@@ -217,7 +217,7 @@
 			
 			// Sliding window, the idea is to save the stream of events if the timestamp of this events appears before than the last recorded one
 			// i.e we need to know which events could be disordered
-			if (typeof slidingWindows[e.srcElement.id] !== 'undefined') {
+			if (typeof slidingWindows[e.srcElement.id] === 'undefined') {
 				slidingWindows[e.srcElement.id] = [];
 			}
 			
