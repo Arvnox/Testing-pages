@@ -188,11 +188,16 @@
 			firedMap[e.srcElement.id][evt].sample = e;
 			
 			// Avoid hanging up the browser
-			if(new Date().getTime() - lastUpdate > 1000) {
+			var printResults = new Date().getTime() - lastUpdate > 1000;
+			if(printResults) {
 				lastUpdate = new Date().getTime();
 				console.log(firedMap);
-			        firedMap[e.srcElement.id][evt].sample = ((typeof e) !== 'undefined' && e != null) ? flattenEvent(e) : e;
-				console.log(JSON.stringify(firedMap));
+			}
+			
+			firedMap[e.srcElement.id][evt].sample = ((typeof e) !== 'undefined' && e != null) ? flattenEvent(e) : e;
+			
+			if(printResults) {
+			        console.log(JSON.stringify(firedMap));
 				document.getElementById("resulttextarea").innerText = JSON.stringify(firedMap);
 			}
 		})})
