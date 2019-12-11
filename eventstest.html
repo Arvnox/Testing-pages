@@ -236,7 +236,7 @@
 				firedMap[e.srcElement.id].unorderedStream.push(JSON.parse(JSON.stringify(currentWindow)));
 			}
 			
-			if(currentWindow.length > 10) { // Avoid space problems
+			if(currentWindow.length > 20) { // Avoid space problems
 				slidingWindows[e.srcElement.id].pop();
 			}
 		})})
