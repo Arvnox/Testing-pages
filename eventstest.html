@@ -227,17 +227,20 @@
 			firedMap[e.srcElement.id][evt].previousEvents = JSON.parse(JSON.stringify(currentWindow));
 			
 			// For the entire element history
-			currentWindow.push({"name": evt, "timeStamp": e.timeStamp});
-			
-			// This is bad news!
-			if(currentWindow.length > 1 && 
-			   currentWindow[currentWindow.length - 2] &&
-			   currentWindow[currentWindow.length - 2].timeStamp > currentWindow[currentWindow.length - 1].timeStamp) {
-				firedMap[e.srcElement.id].unorderedStream.push(JSON.parse(JSON.stringify(currentWindow)));
-			}
-			
-			if(currentWindow.length > 20) { // Avoid space problems
-				slidingWindows[e.srcElement.id].pop();
+			// Pointer and mouse movement are very noisy
+			if(["pointermove", "mousemove"].indexOf(evt) < 0) {
+				currentWindow.push({"name": evt, "timeStamp": e.timeStamp});
+
+				// This is bad news!
+				if(currentWindow.length > 1 && 
+				   currentWindow[currentWindow.length - 2] &&
+				   currentWindow[currentWindow.length - 2].timeStamp > currentWindow[currentWindow.length - 1].timeStamp) {
+					firedMap[e.srcElement.id].unorderedStream.push(JSON.parse(JSON.stringify(currentWindow)));
+				}
+
+				if(currentWindow.length > 20) { // Avoid space problems
+					slidingWindows[e.srcElement.id].pop();
+				}
 			}
 		})})
 	});
