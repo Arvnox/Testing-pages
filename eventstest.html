@@ -184,7 +184,7 @@
 		elements.forEach(function(el) {el.addEventListener(evt, function(e, it) {
 			//console.log(evt, e, e.srcElement.id, it);
 			if(!firedMap[e.srcElement.id]) firedMap[e.srcElement.id] = {"unorderedStream": []};
-			if(!firedMap[e.srcElement.id][evt]) firedMap[e.srcElement.id][evt] = {"count":0, "sample":{}};
+			if(!firedMap[e.srcElement.id][evt]) firedMap[e.srcElement.id][evt] = {"count":0, "previousEvents": [], "sample":{}};
 			firedMap[e.srcElement.id][evt].count++;
 			var previous = firedMap[e.srcElement.id][evt].sample;
 			firedMap[e.srcElement.id][evt].sample = e;
@@ -222,6 +222,11 @@
 			}
 			
 			var currentWindow = slidingWindows[e.srcElement.id]
+			
+			// Current event
+			firedMap[e.srcElement.id][evt].previousEvents = JSON.parse(JSON.stringify(currentWindow));
+			
+			// For the entire element history
 			currentWindow.push({"name": evt, "timeStamp": e.timeStamp});
 			
 			// This is bad news!
